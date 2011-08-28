@@ -1,0 +1,36 @@
+{% extends skin_template_path('normal_gadget.html.twig') %}
+
+{% block caption %}{{ gadget.caption }}{% endblock %}
+{% block content %}
+<form class="status_post" action="{{ path('_post_status', {'gadget' : gadget}) }}" method="post">
+    {% if gadget.parameters["show_max_length"] %}
+    <p class="counter">{{ gadget.parameters["max_length"] }}</p>
+    {% endif %}
+
+    {{ form_widget(form.body) }}
+    {{ form_rest(form) }}
+
+    {{ form_errors(form) }}
+
+    <button type="submit">Update Status</button>
+</form>
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+function updateStatusCount(gadget_id)
+{
+    var gadget_textarea = $(gadget_id + ' textarea');
+
+    if (-1 != gadget_textarea.attr('maxlength')) {
+        $(gadget_id + ' .counter').text(gadget_textarea.attr('maxlength') - gadget_textarea.val().length);
+    }
+}
+
+updateStatusCount('#gadget_{{gadget.id}}');
+
+$('#gadget_{{gadget.id}} .status_post textarea').keyup(function(e) {
+    updateStatusCount('#gadget_{{gadget.id}}');
+});
+</script>
+{% endblock %}
