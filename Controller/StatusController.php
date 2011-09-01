@@ -20,9 +20,14 @@ class StatusController extends Controller
             throw $this->createNotFoundException();
         }
 
+        if ('SocietoStatusPlugin:StatusForm' !== $gadget->getName()) {
+            throw $this->createNotFoundException();
+        }
+
         $em = $this->get('doctrine.orm.entity_manager');
 
         $status = new \SocietoPlugin\Societo\StatusPlugin\Entity\Status();
+        $status->setMaxLength($gadget->getParameter('max_length'));
         $form = $this->get('form.factory')->create(new StatusType($gadget->getParameter('max_length')), $status);
         $form->bindRequest($request);
         if ($form->isValid()) {
