@@ -8,7 +8,7 @@ namespace SocietoPlugin\Societo\StatusPlugin\Tests\Controller;
 
 use Societo\BaseBundle\Test\WebTestCase;
 
-class StatusController extends WebTestCase
+class StatusControllerTest extends WebTestCase
 {
     public $em, $token;
 
